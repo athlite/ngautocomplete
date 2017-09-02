@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {PeopleService} from '../people.service';
+import { Person, PeopleService} from '../people.service';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-stuff',
@@ -8,17 +9,21 @@ import {PeopleService} from '../people.service';
 })
 export class StuffComponent implements OnInit {
 
-  public people = [];
+  public people: Observable<Person[]>;
 
   constructor(private peopleService: PeopleService) {}
 
-  get peopleSource (): Array<string> {
-    return this.people.map(p => p.name);
+  public names = (keyword: any): Observable<string[]> => {
+
+    const re = RegExp("^"+keyword,'i');
+
+    return this.peopleService.state.map((people)=> {
+      return people.map(p => p.name).filter(name => re.test(name))
+    });
   }
 
   ngOnInit() {
-    this.peopleService.all().then(people =>
-      this.people = people.map(person => person.value)
-    );
+
+    this.people = this.peopleService.state;
   }
 }
