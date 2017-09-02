@@ -1,0 +1,19 @@
+<div class="field">
+
+  <input
+    class="search" style=""
+    auto-complete
+    auto-complete-placeholder="søk etter varer, artikler, etc."
+    no-match-found-text="ingen treff"
+    [(ngModel)]="selectedPerson"
+    [source]="peopleSource" />
+
+  <span class="button">
+    <img src="https://icon.now.sh/search" alt="search" />
+    <span>Søk nå</span>
+  </span>
+</div>
+
+<div style="margin: 2em 0">
+  {{selectedPerson}}
+</div>
