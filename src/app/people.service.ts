@@ -7,17 +7,19 @@ interface IPerson {
   email: string;
 }
 
+console.log(Faker);
+
 export class Person implements IPerson {
   public name: string;
   public email: string;
-  constructor () {
-    this.name = Faker.name.findName();
-    this.email = Faker.internet.email();
+  constructor (name,email) {
+    this.name = name;
+    this.email = email;
   }
 }
 
 const people = Array(20).fill(0).map( i => {
-  return new Person();
+  return new Person(Faker.name.findName(),Faker.internet.email());
 });
 
 @Injectable()

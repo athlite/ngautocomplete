@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { StuffComponent } from './stuff.component';
+import { Person, PeopleService} from '../people.service';
+import { Faker } from 'faker';
 
 describe('StuffComponent', () => {
   let component: StuffComponent;
@@ -8,7 +9,19 @@ describe('StuffComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StuffComponent ]
+      imports: [Faker],
+      declarations: [ StuffComponent],
+      providers: [PeopleService]
+    })
+    .overrideComponent(StuffComponent, {
+      set: {
+        providers: [{
+          provide: Faker, useValue: {
+            name: Faker.name,
+            internet: Faker.internet
+          }
+        }]
+      }
     })
     .compileComponents();
   }));
