@@ -3,7 +3,8 @@
   <input
     class="search" style=""
     auto-complete
-    auto-complete-placeholder="søk etter varer, artikler, etc."
+    placeholder="søk etter varer, artikler, etc."
+    min-chars=1
     no-match-found-text="ingen treff"
     [(ngModel)]="selectedPerson"
     [source]="names" />
@@ -14,6 +15,6 @@
   </span>
 </div>
 
-<div style="margin: 2em 0">
-  {{selectedPerson}}
+<div style="margin: 2em 0" *ngIf="selectedPerson">
+  selected: {{selectedPerson}}
 </div>

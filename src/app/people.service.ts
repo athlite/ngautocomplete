@@ -23,7 +23,7 @@ export class PeopleService {
 
   public get people (): Person[] {
     if (this._people) { return this._people; }
-    this._people = Array(20).fill(0).map( i => {
+    this._people = Array(400).fill(0).map( i => {
       return new Person(faker.name.findName(),faker.internet.email());
     });
     return this._people;
