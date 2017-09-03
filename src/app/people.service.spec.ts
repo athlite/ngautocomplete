@@ -12,4 +12,8 @@ describe('PeopleService', () => {
   it('should be created', inject([PeopleService], (service: PeopleService) => {
     expect(service).toBeTruthy();
   }));
+
+  it ('should get people', inject([PeopleService], (service: PeopleService) => {
+    expect(service.people.length).toEqual(20);
+  }));
 });

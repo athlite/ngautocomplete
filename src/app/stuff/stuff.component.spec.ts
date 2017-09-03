@@ -1,7 +1,21 @@
+
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { StuffComponent } from './stuff.component';
-import { Person, PeopleService} from '../people.service';
-import { Faker } from 'faker';
+import { Person, PeopleService } from '../people.service';
+import { Observable } from 'rxjs/Rx';
+
+class PeopleServiceMock extends PeopleService {
+  public get people (): Person[] {
+    return [
+      new Person('john','john@ex.com'),
+      new Person('jane','jane@ex.com'),
+      new Person('obi','obi@ex.com'),
+      new Person('test','test@ex.com')
+    ];
+  }
+}
 
 describe('StuffComponent', () => {
   let component: StuffComponent;
@@ -9,17 +23,14 @@ describe('StuffComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [Faker],
-      declarations: [ StuffComponent],
+      imports:[FormsModule,NguiAutoCompleteModule],
+      declarations: [ StuffComponent ],
       providers: [PeopleService]
     })
-    .overrideComponent(StuffComponent, {
-      set: {
+    .overrideComponent(StuffComponent,{
+      set:{
         providers: [{
-          provide: Faker, useValue: {
-            name: Faker.name,
-            internet: Faker.internet
-          }
+          provide: PeopleService, useClass: PeopleServiceMock
         }]
       }
     })
@@ -34,5 +45,12 @@ describe('StuffComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should populate suggestions when calling \'names\'', (done) => {
+    component.names('j').subscribe(results => {
+      expect(results).toEqual(['john','jane'])
+      done();
+    });
   });
 });

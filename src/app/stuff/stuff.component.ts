@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Rx';
 })
 export class StuffComponent implements OnInit {
 
+  public selectedPerson: string;
   public people: Observable<Person[]>;
 
   constructor(private peopleService: PeopleService) {}
@@ -23,7 +24,6 @@ export class StuffComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.people = this.peopleService.state;
   }
 }

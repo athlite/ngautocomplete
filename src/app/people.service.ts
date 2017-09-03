@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import Faker from 'faker';
+import * as faker from 'faker';
 
 interface IPerson {
   name: string;
   email: string;
 }
-
-console.log(Faker);
 
 export class Person implements IPerson {
   public name: string;
@@ -18,16 +16,20 @@ export class Person implements IPerson {
   }
 }
 
-const people = Array(20).fill(0).map( i => {
-  return new Person(Faker.name.findName(),Faker.internet.email());
-});
-
 @Injectable()
 export class PeopleService {
 
-  constructor() {}
+  private _people: Person[];
+
+  public get people (): Person[] {
+    if (this._people) { return this._people; }
+    this._people = Array(20).fill(0).map( i => {
+      return new Person(faker.name.findName(),faker.internet.email());
+    });
+    return this._people;
+  }
 
   public get state (): Observable<Person[]> {
-    return Observable.of(people);
+    return Observable.of(this.people);
   }
 }

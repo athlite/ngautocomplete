@@ -1,14 +1,27 @@
+
 import { TestBed, async } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+
+import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 
 import { AppComponent } from './app.component';
+import { StuffComponent } from './stuff/stuff.component';
+import { Person, PeopleService } from './people.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
+      imports: [
+        NguiAutoCompleteModule,
+        FormsModule
       ],
-    }).compileComponents();
+      declarations: [
+        AppComponent,
+        StuffComponent
+      ],
+      providers: [PeopleService]
+    })
+    .compileComponents();
   }));
 
   it('should create the app', async(() => {
@@ -27,6 +40,6 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!');
+    expect(compiled.querySelector('h1').textContent).toContain('Stuff app works');
   }));
 });
