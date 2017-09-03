@@ -9,12 +9,16 @@ import { Observable } from 'rxjs/Rx';
 })
 export class StuffComponent implements OnInit {
 
-  public _selectedPerson: string;
+  public _selectedPerson = '';
   public people: Observable<Person[]>;
 
   constructor(private peopleService: PeopleService) {}
 
   public names = (keyword: string): Observable<string[]> => {
+
+    if (!keyword) {
+      return Observable.of([]);
+    }
 
     const re = RegExp("^"+keyword,'i');
 
@@ -25,7 +29,7 @@ export class StuffComponent implements OnInit {
 
   public set selectedPerson(s: string) {
     console.log('selected',s);
-    this._selectedPerson = s;
+    this._selectedPerson = s || '';
   }
 
   public get selectedPerson(): string {
@@ -34,6 +38,5 @@ export class StuffComponent implements OnInit {
 
   ngOnInit() {
     this.people = this.peopleService.state;
-    this.selectedPerson
   }
 }

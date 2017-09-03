@@ -4,17 +4,16 @@
     class="search" style=""
     auto-complete
     placeholder="søk etter varer, artikler, etc."
-    min-chars=1
+    min-chars=2
     no-match-found-text="ingen treff"
     [(ngModel)]="selectedPerson"
     [source]="names" />
 
   <span class="button">
-    <img src="https://icon.now.sh/search" alt="search" />
     <span>Søk nå</span>
   </span>
 </div>
 
-<div style="margin: 2em 0" *ngIf="selectedPerson">
-  selected: {{selectedPerson}}
+<div style="margin: 2em 0">
+  selected: {{_selectedPerson}}
 </div>
