@@ -14,6 +14,6 @@ describe('PeopleService', () => {
   }));
 
   it ('should get people', inject([PeopleService], (service: PeopleService) => {
-    expect(service.people.length).toEqual(20);
+    expect(service.people.length).toEqual(1000);
   }));
 });

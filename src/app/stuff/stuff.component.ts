@@ -20,7 +20,7 @@ export class StuffComponent implements OnInit {
       return Observable.of([]);
     }
 
-    const re = RegExp("^"+keyword,'i');
+    const re = RegExp('^' + keyword, 'i');
 
     return this.people.map(people =>
       people.map(p => p.name).filter(name => re.test(name))
@@ -28,7 +28,7 @@ export class StuffComponent implements OnInit {
   }
 
   public set selectedPerson(s: string) {
-    console.log('selected',s);
+    console.log('selected', s);
     this._selectedPerson = s || '';
   }
 

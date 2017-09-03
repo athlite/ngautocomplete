@@ -9,10 +9,10 @@ import { Observable } from 'rxjs/Rx';
 class PeopleServiceMock extends PeopleService {
   public get people (): Person[] {
     return [
-      new Person('john','john@ex.com'),
-      new Person('jane','jane@ex.com'),
-      new Person('obi','obi@ex.com'),
-      new Person('test','test@ex.com')
+      new Person('john', 'john@ex.com'),
+      new Person('jane', 'jane@ex.com'),
+      new Person('obi', 'obi@ex.com'),
+      new Person('test', 'test@ex.com')
     ];
   }
 }
@@ -23,12 +23,12 @@ describe('StuffComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports:[FormsModule,NguiAutoCompleteModule],
-      declarations: [ StuffComponent ],
+      imports: [FormsModule, NguiAutoCompleteModule],
+      declarations: [StuffComponent],
       providers: [PeopleService]
     })
-    .overrideComponent(StuffComponent,{
-      set:{
+    .overrideComponent(StuffComponent, {
+      set: {
         providers: [{
           provide: PeopleService, useClass: PeopleServiceMock
         }]
@@ -49,7 +49,7 @@ describe('StuffComponent', () => {
 
   it('should populate suggestions when calling \'names\'', (done) => {
     component.names('j').subscribe(results => {
-      expect(results).toEqual(['john','jane'])
+      expect(results).toEqual(['john', 'jane']);
       done();
     });
   });
