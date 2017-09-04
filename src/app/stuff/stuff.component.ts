@@ -9,34 +9,28 @@ import { Observable } from 'rxjs/Rx';
 })
 export class StuffComponent implements OnInit {
 
-  public _selectedPerson = '';
-  public people: Observable<Person[]>;
+  public people: Person[];
+  public term: string;
+  public activeSearchTerm: string;
 
   constructor(private peopleService: PeopleService) {}
 
-  public names = (keyword: string): Observable<string[]> => {
+  public search = (text$: Observable<string>): Observable<string[]> => {
+    return text$.debounceTime(200).distinctUntilChanged().map(term => {
+      if (term.length < 2) return [];
+      return this.people.map(p=>p.name).filter(name => {
+        return RegExp('^' + term, 'i').test(name);
+      });
+    });
+  };
 
-    if (!keyword) {
-      return Observable.of([]);
-    }
-
-    const re = RegExp('^' + keyword, 'i');
-
-    return this.people.map(people =>
-      people.map(p => p.name).filter(name => re.test(name))
-    );
-  }
-
-  public set selectedPerson(s: string) {
-    console.log('selected', s);
-    this._selectedPerson = s || '';
-  }
-
-  public get selectedPerson(): string {
-    return this._selectedPerson;
+  blur () {
+    this.activeSearchTerm = this.term;
   }
 
   ngOnInit() {
-    this.people = this.peopleService.state;
+    this.peopleService.state.subscribe(people => {
+      this.people = people;
+    });
   }
 }

@@ -1,19 +1,16 @@
-<div class="field">
 
-  <input
-    class="search" style=""
-    auto-complete
-    placeholder="søk etter varer, artikler, etc."
-    min-chars=2
-    no-match-found-text="ingen treff"
-    [(ngModel)]="selectedPerson"
-    [source]="names" />
+<h2>ng-bootstrap typeahead</h2>
 
-  <span class="button">
-    <span>Søk nå</span>
-  </span>
+<div class='form-inline'>
+  <label class='sr-only' for="typeahead-basic">@Search</label>
+  <div class='input-group mb-4 mr-sm-4 mb-sm-0'>
+    <input id="typeahead-basic" (blur)="blur($event)" placeholder='Søk etter varer, artikler, etc' type="text" class="form-control" [(ngModel)]="term" [ngbTypeahead]="search" />
+    <div class="input-group-addon">
+      Søk nå
+    </div>
+  </div>
 </div>
 
-<div style="margin: 2em 0">
-  selected: {{_selectedPerson}}
+<div>
+  {{activeSearchTerm}}
 </div>
