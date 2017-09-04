@@ -29,6 +29,14 @@ export class PeopleService {
     return this._people;
   }
 
+  public search (name): Observable<Person[]> {
+    const re = RegExp(name,'i');
+    const people = this.people.filter(person => {
+      return re.test(person.name);
+    });
+    return Observable.timer(2000).map(x => people);
+  }
+
   public get state (): Observable<Person[]> {
     return Observable.of(this.people);
   }

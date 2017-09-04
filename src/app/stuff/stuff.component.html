@@ -4,9 +4,10 @@
 <div class='form-inline'>
   <label class='sr-only' for="typeahead-basic">@Search</label>
   <div class='input-group mb-4 mr-sm-4 mb-sm-0'>
-    <input id="typeahead-basic" (blur)="blur($event)" placeholder='Søk etter varer, artikler, etc' type="text" class="form-control" [(ngModel)]="term" [ngbTypeahead]="search" />
-    <div class="input-group-addon">
-      Søk nå
+    <input id="typeahead-basic" (blur)="exec()" placeholder='Søk etter varer, artikler, etc' type="text" class="form-control" [(ngModel)]="term" [ngbTypeahead]="search" />
+    <div class="input-group-addon" (click)="exec()">
+      <span *ngIf="searching; else ss">Søker.</span>
+      <ng-template #ss>Søk nå</ng-template>
     </div>
   </div>
 </div>

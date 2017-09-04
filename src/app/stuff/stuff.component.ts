@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Person, PeopleService} from '../people.service';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-stuff',
@@ -12,24 +12,30 @@ export class StuffComponent implements OnInit {
   public people: Person[];
   public term: string;
   public activeSearchTerm: string;
+  public searching = false;
 
-  constructor(private peopleService: PeopleService) {}
+  constructor(private service: PeopleService) {}
 
   public search = (text$: Observable<string>): Observable<string[]> => {
-    return text$.debounceTime(200).distinctUntilChanged().map(term => {
-      if (term.length < 2) return [];
-      return this.people.map(p=>p.name).filter(name => {
-        return RegExp('^' + term, 'i').test(name);
-      });
-    });
+    return text$
+    .debounceTime(200)
+    .distinctUntilChanged()
+    .do(_ => this.searching = true)
+    .switchMap(term =>
+      this.service.search(term).map(people =>
+        people.map(p => p.name)
+      )
+    )
+    .do(_ => this.searching = false)
   };
 
-  blur () {
-    this.activeSearchTerm = this.term;
+  public exec (): void {
+    this.activeSearchTerm = `Søk etter ${this.term}`;
   }
 
   ngOnInit() {
-    this.peopleService.state.subscribe(people => {
+
+    this.service.state.subscribe(people => {
       this.people = people;
     });
   }
